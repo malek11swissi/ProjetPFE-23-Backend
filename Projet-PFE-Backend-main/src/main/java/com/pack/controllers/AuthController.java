@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,12 +57,12 @@ public class AuthController {
 	SoldeService soldeService;
 
 	@PostMapping("/signin")
-	public ResponseEntity<?> authenticateUser(@Valid   @RequestBody LoginRequest loginRequest) {
+	public ResponseEntity<?> authenticateUser(@Valid   @RequestBody LoginRequest loginRequest) throws Exception {
 
-		Authentication authentication = authenticationManager.authenticate(
+		try {
+			Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+				SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
@@ -74,7 +75,16 @@ public class AuthController {
 												 userDetails.getUsername(), 
 												 userDetails.getTelephone(), 
 												 roles.get(0))
-												 );
+												 );  
+		}  catch(LockedException e)
+        {
+			return ResponseEntity.ok(new JwtResponse("Votre compte est bloqué"));
+		
+
+        }
+	
+
+		
 	}
 
 	@PostMapping("/signup")

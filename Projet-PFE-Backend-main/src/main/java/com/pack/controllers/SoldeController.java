@@ -19,6 +19,7 @@ import com.pack.models.Solde;
 import com.pack.models.SoldeTransfertRequest;
 import com.pack.models.TransfertSolde;
 import com.pack.models.User;
+import com.pack.payload.response.PaiementRetour;
 import com.pack.repository.SoldeRepository;
 import com.pack.repository.UserRepository;
 import com.pack.service.SoldeService;
@@ -98,13 +99,13 @@ public class SoldeController {
 	}
 
 	@PostMapping( value = "/transfertSolde")
-	public void transfertSolde(@RequestBody SoldeTransfertRequest request,Authentication authentication) {
+	public PaiementRetour transfertSolde(@RequestBody SoldeTransfertRequest request,Authentication authentication) {
 		String username = authentication.getName();
-	
+		PaiementRetour paiementRetour = new PaiementRetour();
 	
 		String telephone=request.getTelephone();
 		User sender=null,receiver = null;
-		sender=userService.getUser(username);
+		sender=userService.getUserByUsername(username);
 
 		if(userRepo.existsByTelephone(telephone)){
 			receiver = userRepo.findByTelephone(telephone)
@@ -123,8 +124,12 @@ public class SoldeController {
 			soldeSender.setValeur(valSender - request.getSomme());	
 			soldeReceiver.setValeur(valReceiver + request.getSomme());
 			solderepo.save(soldeSender);
+			paiementRetour.setSuccess(true);
+			paiementRetour.setMessage("Succès");
 		} else {
-				System.out.println("solde isuffisant ");
+			paiementRetour.setSuccess(false);
+			paiementRetour.setMessage("solde isuffisant");
+			
 		}
 		TransfertSolde transfertSolde = new TransfertSolde();
 		transfertSolde.setUser(sender);

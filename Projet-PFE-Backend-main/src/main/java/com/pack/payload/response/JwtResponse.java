@@ -11,7 +11,10 @@ public class JwtResponse {
 	private String telephone;
 	private String role;
 
-
+	public JwtResponse(String accessToken) {
+		this.token = accessToken;
+		
+	}
 	public JwtResponse(String accessToken, Long id, String username, String telephone, String role) {
 		this.token = accessToken;
 		this.id = id;

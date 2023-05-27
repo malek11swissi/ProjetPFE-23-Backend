@@ -28,8 +28,8 @@ public class TicketService {
 		return ticketRepo.findAll();
 	}
 	
-	public void addTicket(Ticket ticket) {
-		ticketRepo.save(ticket);
+	public Ticket addTicket(Ticket ticket) {
+		return ticketRepo.save(ticket);
 	}
 	
 	public Optional<Ticket> getSingleTicket(Long id) {

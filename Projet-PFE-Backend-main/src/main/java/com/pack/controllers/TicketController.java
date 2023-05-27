@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pack.models.ERole;
+import com.pack.models.Pack;
 import com.pack.models.Ticket;
 import com.pack.models.Token;
 import com.pack.models.TransfertSolde;
@@ -40,9 +41,12 @@ public class TicketController {
 	private UserService userservice;
 	@Autowired
 	PanierService panierService;
-	@Autowired
-	private PackService carteRechargeService;
 
+	@Autowired
+	private PackService packService;
+
+	@Autowired
+	PackRepository packRepository ;
 	
 
 	@PreAuthorize("hasRole('ROLE_MARCHAND')")
@@ -70,7 +74,16 @@ public class TicketController {
 	
 		System.out.println(ticket.toString());
 
-		ticketService.addTicket(ticket);
+		Ticket ticketSaved = ticketService.addTicket(ticket);
+		
+		// get Marchands Packs 
+		List<Pack> packs = packService.getPacksByMarchand(authentication);
+		// trouver le pack coresspondant au ticket et diminuer le nombre 
+		Pack packTicketSelled = packs.stream().filter(elem -> elem.getTypetoken().getId() == ticketSaved.getTypetoken().getId()).findFirst().get();
+		packTicketSelled.setNombre(packTicketSelled.getNombre() - 1);
+		packRepository.save(packTicketSelled);
+
+		// 
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/tickets/{serial}")
