@@ -98,6 +98,7 @@ public class SoldeController {
 
 	}
 
+	
 	@PostMapping( value = "/transfertSolde")
 	public PaiementRetour transfertSolde(@RequestBody SoldeTransfertRequest request,Authentication authentication) {
 		String username = authentication.getName();
@@ -136,6 +137,7 @@ public class SoldeController {
 		transfertSolde.setTelephone(request.getTelephone());
 		transfertSolde.setSomme(request.getSomme());
 		transfertSoldeService.addTransfertSolde(transfertSolde);
+		return paiementRetour;
 	}
 //alimenter solde 
 	@PostMapping( value = "/alimenterCompte")
