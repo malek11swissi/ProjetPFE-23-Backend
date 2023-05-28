@@ -75,14 +75,5 @@ public class Compteur {
 	}
 
 
-	
-	/*
-	 * @ManyToOne(fetch = FetchType.EAGER)
-	 * 
-	 * @JoinColumn(name = "id_user", nullable = false) public User getUser() {
-	 * return user; }
-	 * 
-	 * public void setUser(User user) { this.user = user; }
-	 */
 
 }

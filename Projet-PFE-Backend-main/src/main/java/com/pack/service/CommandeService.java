@@ -38,12 +38,6 @@ public class CommandeService {
 	}
 
 	public List<Commande> getCommandesByUser(String username) {
-		/*
-		 * commandeRepo.getCommandesByUsername(username).forEach(p -> { if
-		 * (p.getActive()) { listeCommandesActives.add(p); } });
-		 * System.out.println("affichage commande actifs");
-		 * listeCommandesActives.forEach(p->{ System.out.println(p.toString()); });
-		 */		
 		return commandeRepo.getCommandesByUsername(username);
 	}
 

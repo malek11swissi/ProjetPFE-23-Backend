@@ -27,33 +27,26 @@ public class CompteurController {
 
 	@Autowired
 	CompteurService compteurService;
-
 	@Autowired
 	UserService userService;
 	@Autowired
 	private UserRepository userRepo;
 
-	// @RequestMapping("/compteurs")
-//	@PreAuthorize("hasRole('ADMIN')")
+
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 
-	@RequestMapping(method = RequestMethod.GET, value = "/compteurs")
-	public List<Compteur> getCompteur() {
-		return (List<Compteur>) compteurService.getAllCompteur();
-
-	}
-
+	// liste compteurs by user 
 	@GetMapping( value = "/compteurs/getCompteurByClient")
 	public List<Compteur> getCompteurByClient(Authentication authentication) {
 		return  compteurService.getCompteursByClient(authentication);
-
 	}
 
+    //  Ajouter / Modifier compteur
 	@PostMapping( value = "/compteurs/saveCompteur")
 	public ResponseEntity<Compteur> saveCompteur(@RequestBody Compteur compteur, Authentication authentication) {
 		return compteurService.saveCompteur(compteur,authentication);
 	}
-
+      
 	@RequestMapping(method = RequestMethod.DELETE, value = "/compteurs/deleteCompteur/{id}")
 	public void deleteCompteur(@PathVariable Long id) {
 		compteurService.deleteCompteur(id);
@@ -62,6 +55,13 @@ public class CompteurController {
 	@GetMapping( value="/compteurs/getCompteur/{id}")
 	public Optional<Compteur> getCompteurById(@PathVariable Long id) {
 		return compteurService.getSingleCompteur(id);
+	}
+
+
+	@RequestMapping(method = RequestMethod.GET, value = "/compteurs")
+	public List<Compteur> getCompteur() {
+		return (List<Compteur>) compteurService.getAllCompteur();
+
 	}
 
 }

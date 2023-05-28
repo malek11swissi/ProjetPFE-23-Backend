@@ -26,46 +26,57 @@ public class TokenService {
 	@Autowired
 	private UserService userService;
 	
+
+
 	public List<Token> getAllToken() {
 		return tokenRepo.findAll();
 	}
 	
-	/* public void addToken(Token token) {
-		tokenRepo.save(token);
-	} */
-
-
-	public ResponseEntity<Token> saveToken(Token token, Authentication authentication) {
-		String username = authentication.getName();
-			User client = userService.getUserByUsername(username);
-			token.setUser(client);
-			token.setNumerotoken(this.genererNumeroToken(token.getTypetoken().getId(),token.getCompteur().getId(), client.getId()));
-
-			Token TokenSaved = tokenRepo.save(token);
-			return ResponseEntity.ok(TokenSaved);
-		}
-
-
-
 	
 	public Optional<Token> getSingleToken(Long id) {
 		return tokenRepo.findById(id);
 	}
 	
+	
+
+	
+  // Ajouter Token 
+  public ResponseEntity<Token> saveToken(Token token, Authentication authentication) {
+	String username = authentication.getName();
+		User client = userService.getUserByUsername(username);
+		token.setUser(client);
+//ajouter numero token génerer
+		token.setNumerotoken(this.genererNumeroToken(token.getTypetoken().getId(),token.getCompteur().getId(), client.getId()));
+		Token TokenSaved = tokenRepo.save(token);
+		return ResponseEntity.ok(TokenSaved);
+	}
+
+	
+   /* generate token user  */
+	public String genererNumeroToken( Long idTypeToken, Long idCompteur, Long idUser) {
+		// heure actuelle mili + idTypeToken + idCompteur + idUser 
+		String numeroToken=""+System.currentTimeMillis()+idTypeToken+idCompteur + idUser;
+		return numeroToken;
+	}
+	
+
+	// Modifier Token 
 	public void updateToken(Token token) {
 		Token tokenBd = tokenRepo.findById(token.getId()).get();
-tokenBd.setNumerotoken(token.getNumerotoken());
-tokenBd.setCompteur(token.getCompteur());
-tokenBd.setTypetoken(token.getTypetoken());
-tokenRepo.save(tokenBd);	
-		
+		tokenBd.setNumerotoken(token.getNumerotoken());
+		tokenBd.setCompteur(token.getCompteur());
+		tokenBd.setTypetoken(token.getTypetoken());
+		tokenRepo.save(tokenBd);	
+			
 	}
 	
 	public void deleteToken(Long id) {
 		tokenRepo.deleteById(id);
 	}
-	/*add token by user dans liste token  */
-	public List<Token> getTokensByUser(Authentication authentication) {
+     
+
+
+	/*public List<Token> getTokensByUser(Authentication authentication) {
 		String username = authentication.getName();
 		User client = userService.getUserByUsername(username);
 		List<Token> listtokens=new ArrayList();
@@ -74,13 +85,20 @@ tokenRepo.save(tokenBd);
 				listtokens.add(t);
 		});
 		return listtokens;
-	}
+	}*/
 
-	/* generate token user  */
-	public String genererNumeroToken( Long idTypeToken, Long idCompteur, Long idUser) {
-		String numeroToken=""+System.currentTimeMillis()+idTypeToken+idCompteur + idUser;
-		return numeroToken;
-	}
+
+		/*add token by user dans liste token  */
+		public List<Token> getTokensByUser(Authentication authentication) {
+			String username = authentication.getName();
+			User client = userService.getUserByUsername(username);
+			List<Token> listtokens=new ArrayList();
+			tokenRepo.findAllByUserId(client.getId()).forEach(t->{
+				if(t.getActive())
+					listtokens.add(t);
+			});
+			return listtokens;
+		}
 	
 	
 }

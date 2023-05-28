@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.pack.models.Solde;
 import com.pack.models.SoldeTransfertRequest;
-import com.pack.models.TransfertSolde;
+
 import com.pack.models.User;
 import com.pack.payload.response.PaiementRetour;
 import com.pack.repository.SoldeRepository;
 import com.pack.repository.UserRepository;
 import com.pack.service.SoldeService;
-import com.pack.service.TransfertSoldeService;
+
 import com.pack.service.UserService;
 
 @CrossOrigin(origins = "*")
@@ -43,8 +43,7 @@ public class SoldeController {
 	@Autowired
 	SoldeRepository solderepo ; 
 
-	@Autowired
-	TransfertSoldeService transfertSoldeService;
+
 	
 
 
@@ -99,21 +98,21 @@ public class SoldeController {
 	}
 
 	@PostMapping( value = "/transfertSolde")
-	public PaiementRetour transfertSolde(@RequestBody SoldeTransfertRequest request,Authentication authentication) {
+	public PaiementRetour transfertSolde (@RequestBody SoldeTransfertRequest request,Authentication authentication) {
 		String username = authentication.getName();
 		PaiementRetour paiementRetour = new PaiementRetour();
 	
 		String telephone=request.getTelephone();
 		User sender=null,receiver = null;
 		sender=userService.getUserByUsername(username);
-
-		if(userRepo.existsByTelephone(telephone)){
-			receiver = userRepo.findByTelephone(telephone)
-					.orElseThrow(() -> new UsernameNotFoundException("user Not Found with telephone: " + telephone));
-		}
-	
-	
-		Solde soldeSender = solderepo.findByUserId(sender.getId()).get();
+		if(!userRepo.existsByTelephone(telephone))
+		{
+			paiementRetour.setSuccess(false);
+			paiementRetour.setMessage("user Not Found with telephone: " + telephone);
+			return paiementRetour ; 
+		} else {
+			receiver = userRepo.findByTelephone(telephone).get();
+			Solde soldeSender = solderepo.findByUserId(sender.getId()).get();
 		Solde soldeReceiver = solderepo.findByUserId(receiver.getId()).get();
 		System.out.println(" solde sender " + soldeSender);
 		double valSender = soldeSender.getValeur();
@@ -131,11 +130,15 @@ public class SoldeController {
 			paiementRetour.setMessage("solde isuffisant");
 			
 		}
-		TransfertSolde transfertSolde = new TransfertSolde();
-		transfertSolde.setUser(sender);
-		transfertSolde.setTelephone(request.getTelephone());
-		transfertSolde.setSomme(request.getSomme());
-		transfertSoldeService.addTransfertSolde(transfertSolde);
+		
+		
+		return paiementRetour;
+		}
+
+	
+	
+		
+		
 	}
 //alimenter solde 
 	@PostMapping( value = "/alimenterCompte")

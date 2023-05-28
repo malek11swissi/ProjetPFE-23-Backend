@@ -16,19 +16,24 @@ public class TypetokenService {
 	@Autowired
 	private TypetokenRepository typetokenRepo;
 	
+
+	
 	
 	public List<Typetoken> getAllTypetoken() {
 		return typetokenRepo.findAll();
 	}
 	
-	public void addTypetoken(Typetoken typetoken) {
-		typetokenRepo.save(typetoken);
-	}
-	
+
 	public Optional<Typetoken> getSingleTypetoken(Long id) {
 		return typetokenRepo.findById(id);
 	}
 	
+
+	public void addTypetoken(Typetoken typetoken) {
+		typetokenRepo.save(typetoken);
+	}
+	
+
 	public void updateTypetoken(Long id, Typetoken typetoken) {
 		typetokenRepo.save(typetoken);
 	}

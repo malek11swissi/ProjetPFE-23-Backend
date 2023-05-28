@@ -20,13 +20,12 @@ import com.pack.service.TypetokenService;
 @RequestMapping("/api/test")
 @RestController
 public class TypetokenUsedbyUserController {
+	
 
 	@Autowired
 	TypetokenService typetokenService;
 
-	//@RequestMapping("/typetokens")
-	//@PreAuthorize("hasRole('ROLE_ADMIN')")
-	//@PreAuthorize("hasRole('ROLE_USER')")
+ 
 
 	@RequestMapping(method = RequestMethod.GET, value = "/typetokensByUser") 
 	public List<Typetoken> getTypetokenByUser() {

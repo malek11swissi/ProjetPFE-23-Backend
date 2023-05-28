@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pack.ConvertDate;
+
 
 import com.pack.models.Pack;
 
@@ -37,16 +37,12 @@ public class PackController {
 	@Autowired
 	SoldeService soldeService;
 	@Autowired
-	ConvertDate convertDate;
-	@Autowired
 	TokenService tokenService;
 	@Autowired
 	StatistiqueAnnuelTokenService statistiqueAnnuelServiceToken;
-	@Autowired
-	StatistiqueMensuelService statistiqueMensuelService;
-	@Autowired
-	StatistiqueMensuelDetailsService statistiqueMensuelDetailsService;
 
+
+	
 	
 	@PreAuthorize("hasRole('ROLE_MARCHAND')")
 
@@ -79,11 +75,6 @@ public class PackController {
 		packService.updatePack(id, packs);
 	}
 
-	/*
-	 * @RequestMapping(method = RequestMethod.DELETE, value =
-	 * "/carteRecharges/{id}") public void deleteCarteRecharge(@PathVariable Long
-	 * id) { carteRechargeService.deleteCarteRecharge(id); }
-	 */
 
 	@GetMapping( value = "/getPackMarchand")
 	public List<Pack> getPackMarchand(Authentication authentication) {

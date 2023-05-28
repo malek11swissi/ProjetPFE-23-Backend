@@ -27,9 +27,9 @@ public class TypetokenController {
 	@Autowired
 	TypetokenService typetokenService;
 
-	//@RequestMapping("/typetokens")
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	//@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	
 
 	@GetMapping( value = "/getAllTypeToken") 
 	public List<Typetoken> getTypetoken() {
@@ -37,16 +37,18 @@ public class TypetokenController {
 
 	}
 
+	@GetMapping("/getTypeToken/{id}")
+	public Optional<Typetoken> getSingleTypetoken(@PathVariable Long id) {
+		return typetokenService.getSingleTypetoken(id);
+	}
+
+
 	@PostMapping( value = "/saveTypeToken")
 	public void addTypetoken(@RequestBody Typetoken typetoken) {
 		System.out.println(typetoken.toString());
 		typetokenService.addTypetoken(typetoken);
 	}
 
-	@GetMapping("/getTypeToken/{id}")
-	public Optional<Typetoken> getSingleTypetoken(@PathVariable Long id) {
-		return typetokenService.getSingleTypetoken(id);
-	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/typetokens/{id}")
 	public void updateTypetoken(@RequestBody Typetoken typetoken, @PathVariable Long id) {

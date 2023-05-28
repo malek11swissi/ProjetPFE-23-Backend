@@ -19,8 +19,9 @@ import com.pack.models.ERole;
 import com.pack.models.Pack;
 import com.pack.models.Ticket;
 import com.pack.models.Token;
-import com.pack.models.TransfertSolde;
+
 import com.pack.models.Typetoken;
+import com.pack.payload.response.PaiementRetour;
 import com.pack.repository.PackRepository;
 import com.pack.repository.UserRepository;
 import com.pack.service.PackService;
@@ -51,6 +52,8 @@ public class TicketController {
 
 	@PreAuthorize("hasRole('ROLE_MARCHAND')")
 
+
+
 	@RequestMapping(method = RequestMethod.GET, value = "/tickets")
 	public List<Ticket> getTicket() {
 		ticketService.getAllTicket().forEach(t -> {
@@ -59,29 +62,42 @@ public class TicketController {
 		return (List<Ticket>) ticketService.getAllTicket();
 	}
 
+
+
+// Crée Ticket  et Modifier Pack 
 	@RequestMapping(method = RequestMethod.POST, value = "/tickets/addTicket/{serial}")
-	public void addTicket( @PathVariable long serial, @RequestBody Ticket ticket , Authentication authentication) {
-		String username = authentication.getName();
-	
-		System.out.println("username:= " + username);
-		System.out.println("serial:= " + serial);
-		ticket.setUser(userservice.getUserByUsername(username));
-		ticket.setNumeroSerie(serial);
-		System.out.println("ticket" + ticket.toString());
-		System.out.println("je suis dans ajout ticket");
-		//carteRechargeService.updateCarteRechargeBycentreName(username, ticket.getTypetoken().getPrix());
-
-	
-		System.out.println(ticket.toString());
-
-		Ticket ticketSaved = ticketService.addTicket(ticket);
+	public PaiementRetour  addTicket( @PathVariable long serial, @RequestBody Ticket ticket , Authentication authentication) {
 		
+		PaiementRetour paiementRetour = new PaiementRetour();
 		// get Marchands Packs 
 		List<Pack> packs = packService.getPacksByMarchand(authentication);
 		// trouver le pack coresspondant au ticket et diminuer le nombre 
-		Pack packTicketSelled = packs.stream().filter(elem -> elem.getTypetoken().getId() == ticketSaved.getTypetoken().getId()).findFirst().get();
-		packTicketSelled.setNombre(packTicketSelled.getNombre() - 1);
-		packRepository.save(packTicketSelled);
+		Pack packTicketSelled = packs.stream().filter(elem -> elem.getTypetoken().getId() == ticket.getTypetoken().getId()).findFirst().get();
+		if(packTicketSelled.getNombre() == 0)
+		{
+			paiementRetour.setSuccess(false);
+			paiementRetour.setMessage("Vente ticket a échoué , Nombre typetoken issufisant");
+			return paiementRetour;
+		} else {
+			String username = authentication.getName();
+			System.out.println("username:= " + username);
+			System.out.println("serial:= " + serial);
+			ticket.setUser(userservice.getUserByUsername(username));
+			ticket.setNumeroSerie(serial);
+			System.out.println("ticket" + ticket.toString());
+			System.out.println("je suis dans ajout ticket");
+			//carteRechargeService.updateCarteRechargeBycentreName(username, ticket.getTypetoken().getPrix());
+			System.out.println(ticket.toString());
+			Ticket ticketSaved = ticketService.addTicket(ticket);
+				packTicketSelled.setNombre(packTicketSelled.getNombre() - 1);
+			packRepository.save(packTicketSelled);
+			paiementRetour.setSuccess(true);
+			paiementRetour.setMessage("Ticket vendu avec succès");
+			return paiementRetour;
+		}
+
+		
+		
 
 		// 
 	}
@@ -99,21 +115,25 @@ public class TicketController {
 		return typetoken;
 	}
 
+
+
+
 	@RequestMapping(method = RequestMethod.POST, value = "/tickets")
 	public void addTicket(@RequestBody Ticket ticket) {
 		System.out.println("je suis dans ajout ticket");
+
+		// format numero serie plus court 
 		Randomize randomize = new Randomize();
-
-		ticket.setNumeroSerie(randomize.retournerrandomserialnumber());
+         ticket.setNumeroSerie(randomize.retournerrandomserialnumber());
 		System.out.println(ticket.toString());
+         ticketService.addTicket(ticket);
+}
 
-		ticketService.addTicket(ticket);
-	}
+
+
 	@GetMapping( value = "/tickets/getTicketsMarchand")
 	public List<Ticket> getTicketByUsername(Authentication authentication) {
-	
-	
-		return ticketService.getTicketsMarchand(authentication);
+	return ticketService.getTicketsMarchand(authentication);
 	
 	}
 }

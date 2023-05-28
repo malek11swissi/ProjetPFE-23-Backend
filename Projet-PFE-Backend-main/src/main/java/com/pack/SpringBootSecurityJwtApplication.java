@@ -106,7 +106,7 @@ public class SpringBootSecurityJwtApplication {
 			typetokenrepository.save(typetoken10);
 			Typetoken typetoken20 = new Typetoken("20 dinars", 22.1);
 			typetokenrepository.save(typetoken20);
-
+*/
 			Gouvernorat tunis = new Gouvernorat("Tunis");
 			gouvernorats.add(tunis);
 			Gouvernorat mennouba = new Gouvernorat("Mennouba");
@@ -175,7 +175,10 @@ public class SpringBootSecurityJwtApplication {
 			User boujaafar = new User("boujaafar", "73123456", cryptedPasswordlafayette,"centre Boujaafar", sousse);
 			User cmetres = new User("cmetres", "74123456", cryptedPasswordlafayette, "centre centmetres", sfax);
 			User lamedina = new User("lamedina", "78123456", cryptedPasswordlafayette,"centre Elmedina", siliana);
+            	admin.setActive(true);
+				userrepository.save(admin);
 
+				
 			admin.setRole(ERole.ROLE_ADMIN);
 			lafayette.setRole(ERole.ROLE_MARCHAND);
 			boujaafar.setRole(ERole.ROLE_MARCHAND);
@@ -184,14 +187,14 @@ public class SpringBootSecurityJwtApplication {
 			mohamed.setRole(ERole.ROLE_CLIENT);
 			malek.setRole(ERole.ROLE_CLIENT);
 
-			admin.setActive(true);
+		
 			lafayette.setActive(true);
 			boujaafar.setActive(true);
 			cmetres.setActive(true);
 			lamedina.setActive(true);
 			malek.setActive(true);
 
-			userrepository.save(admin);
+			
 			userrepository.save(mohamed);
 			userrepository.save(malek);
 			userrepository.save(lafayette);
@@ -222,7 +225,7 @@ public class SpringBootSecurityJwtApplication {
 			soldeRepository.save(soldemohamed);
 			Solde soldemalek = new Solde(malek, 40);
 			soldeRepository.save(soldemalek);
-
+/* 
 			//initiation pack
 			Pack pack5lafayette = new Pack(lafayette,typetoken5,100);
 			Pack pack10lafayette = new Pack(lafayette,typetoken10,100);

@@ -1,9 +1,9 @@
 package com.pack;
-// Java program to demonstrate
-// method calls of Random class
 import java.util.Random;
-
 import org.springframework.stereotype.Component;
+
+
+
 
 public class Randomize
 {
@@ -11,12 +11,18 @@ public class Randomize
 	public long retournerrandomserialnumber(){
         Random random = new Random();
         intermediate=random.nextLong();  
+        //if nombre random negative convert valeur absolue 
         if(intermediate<0)
         	intermediate*=-1;
+      // numéro serie plus court 
         serialNumber=intermediate/100000;
-		return serialNumber;
+		      return serialNumber;
 	}
-    public static void main(String[] args)
+
+
+
+
+  public static void main(String[] args)
     {
     	Randomize r=new Randomize();
     	System.out.println(r.retournerrandomserialnumber());

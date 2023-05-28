@@ -25,9 +25,9 @@ public class CommandeController {
 	@Autowired
 	CommandeService commandeService;
 
-	//@RequestMapping("/commandes")
+
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	//@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/commandes") 
 	public List<Commande> getCommande() 
@@ -39,6 +39,8 @@ public class CommandeController {
 		return (List<Commande>) commandeService.getAllCommande();
 
 	}
+
+	
 
 
 	@RequestMapping("/commandes/{id}")

@@ -18,8 +18,8 @@ import com.pack.ConvertDate;
 import com.pack.models.Commande;
 import com.pack.models.Panier;
 import com.pack.models.StatAnnulleToken;
-import com.pack.models.StatistiqueAnnuel;
-import com.pack.models.StatistiqueMensuel;
+
+
 import com.pack.models.Token;
 import com.pack.models.User;
 import com.pack.payload.response.PaiementRetour;
@@ -27,8 +27,7 @@ import com.pack.service.CommandeService;
 import com.pack.service.PanierService;
 import com.pack.service.SoldeService;
 import com.pack.service.StatistiqueAnnuelTokenService;
-import com.pack.service.StatistiqueMensuelDetailsService;
-import com.pack.service.StatistiqueMensuelService;
+
 import com.pack.service.TokenService;
 import com.pack.service.UserService;
 
@@ -49,10 +48,7 @@ public class PanierController {
 	TokenService tokenService;
 	@Autowired
 	StatistiqueAnnuelTokenService statistiqueAnnuelServiceToken;
-	@Autowired
-	StatistiqueMensuelService statistiqueMensuelService;
-	@Autowired
-	StatistiqueMensuelDetailsService statistiqueMensuelDetailsService;
+	
 
 	@Autowired
 	UserService userService;
@@ -96,8 +92,8 @@ public class PanierController {
 
 		PaiementRetour retour = new PaiementRetour();
 		Commande commande = new Commande();
-		StatistiqueAnnuel statistiqueAnnuel=new StatistiqueAnnuel();
-		StatistiqueMensuel statistiqueMensuel=new StatistiqueMensuel();
+		
+	
 		StatAnnulleToken statistiquetoken=new StatAnnulleToken();
 		double montantPanier = 0;
 		long id_token;
@@ -124,7 +120,7 @@ public class PanierController {
 		if (soldeService.verifierSolde(panier)) {
 			//insertion statistiques
 		
-			statistiqueMensuelDetailsService.ajouterStatMensuelDetails(date);
+	
 			
 			
 	
@@ -154,9 +150,10 @@ public class PanierController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/paniers/{username}")
 	public List<Panier> getPanierByUser(@PathVariable String username) {
-	
-		return panierService.getPaniersByUser(username);
+	      return panierService.getPaniersByUser(username);
 
 	}
+
+	
 
 }

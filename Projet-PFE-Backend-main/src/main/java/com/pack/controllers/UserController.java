@@ -22,8 +22,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	//@RequestMapping("/users")
-	//@PreAuthorize("hasRole('ADMIN')")
+
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/users") 

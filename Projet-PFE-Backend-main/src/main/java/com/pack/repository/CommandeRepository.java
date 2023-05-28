@@ -11,7 +11,6 @@ import com.pack.models.Commande;
 @RestController
 public interface CommandeRepository extends JpaRepository<Commande, Long> {
 	@Query("FROM Commande where user.username = ?1")
-//	@Query("FROM Compteur where user.username = 'dha'")
 	List<Commande> getCommandesByUsername(String Username);
 
 }

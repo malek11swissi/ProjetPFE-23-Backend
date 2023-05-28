@@ -15,67 +15,89 @@ import com.pack.repository.CommandeRepository;
 import com.pack.service.CommandeService;
 import java.util.*;
 
+
+
 @Service
 public class ConvertDate {
 	@Autowired
 	CommandeRepository commandeRepo;
 
-	public String cenvertirDate(Date datee) {
-//		String pattern = "EEEEE MMMMM yyyy HH:mm:ss.SSSZ";
-		String pattern = "EEEEE; dd-MM-yyyy; HH:mm:ss";
-		String pattern2 = "dd-MM-yyyy; HH:mm:ss";
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale("fr", "FR"));
-		// String date = simpleDateFormat.format(new Date());
-		String formatteddate = simpleDateFormat.format(datee);
-		System.out.println(formatteddate);
-		return formatteddate;
-	}
 
-	public void retournerListeCommande() {
-		commandeRepo.findAll().forEach(c -> {
-			System.out.println(c.toString());
-		});
-	}
+   // Convertir Dtae en autre Format et en  fr 
+		public String cenvertirDate(Date datee) {
+	
+			String pattern = "EEEEE; dd-MM-yyyy; HH:mm:ss";
+			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale("fr", "FR"));
+			String formatteddate = simpleDateFormat.format(datee);
+			System.out.println(formatteddate);
+			return formatteddate;
+		}
 
-	/*
-	 * public String retournerAnnee(Date date) { SimpleDateFormat getYearFormat =
-	 * new SimpleDateFormat("yyyy"); String currentYear =
-	 * getYearFormat.format(date); return currentYear; }
-	 * 
-	 * public String retournerMois(Date date) { SimpleDateFormat getYearFormat = new
-	 * SimpleDateFormat("mm"); String currentMois = getYearFormat.format(date);
-	 * return currentMois; }
-	 */
 
-	public int retournerAnnee(Date date) {
+   
 
-		Calendar calendar = Calendar.getInstance();
+		
+	// Retour Instant Année
+		public int retournerAnnee(Date date) {
+        Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-		int dateYear = calendar.get(Calendar.YEAR);
-		System.out.println(dateYear);
-		return dateYear;
-	}
+	// prendre annee calendar (instant)
+			int dateYear = calendar.get(Calendar.YEAR);
+			System.out.println(dateYear);
+			return dateYear;
+		}
 
+
+
+    // Retour Instant Mois
 	public int retournerMois(Date date) {
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
+		// +1 : mois debut en calendar en 00
 		int datemonth= calendar.get(Calendar.MONTH)+1;
 		System.out.println(datemonth);
 		return datemonth;
 	}
 
+
+
+     // Copy partie année dans Date 
 	public String extraireAnnee(String date) {
-		// System.out.println("date length " + date.length());
 		return date.substring(6, 10);
 	}
 
+     // Copy partie mois dans Date 
 	public String extraireMois(String date) {
-		// System.out.println("date length " + date.length());
 		return date.substring(10, 12);
 	}
 
-	public void gereMap() {
+   
+
+	public static void main(String[] args) {
+		ConvertDate c = new ConvertDate();
+		System.out.println("date convertis " + c.cenvertirDate(new Date()));
+		c.retournerAnnee(new Date());
+		
+	}
+
+
+
+
+
+
+
+     /* Affiche tous les commandes par chaine 
+	public void retournerListeCommande() {
+		commandeRepo.findAll().forEach(c -> {
+			System.out.println(c.toString());
+		});
+	}*/
+
+
+
+	/*public void gereMap() {
 		HashMap<Integer, String> map = new HashMap<Integer, String>();// Creating HashMap
 		map.put(1, "Mango"); // Put elements in Map
 		map.put(2, "Apple");
@@ -91,8 +113,8 @@ public class ConvertDate {
 		for (Entry<Integer, String> m : map.entrySet()) {
 			System.out.println(m.getKey() + " " + m.getValue());
 		}
-	}
-
+	}*/
+  /* 
 	public void remplirMapPerAnnee() {
 		String[] dates = { "22-09-2022; 15:06:20", "22-09-2022; 15:06:20", "22-10-2021; 15:06:20",
 				"02-02-2021; 15:06:20", "22-09-2022; 15:06:20", "10-01-2020; 15:06:20", "15-09-2020; 15:06:20" };
@@ -114,24 +136,15 @@ public class ConvertDate {
 		}
 		System.out.println("affichage statistiques");
 		afficherstatistiquesMapPerAnnee(map);
-	}
+	}*/
 
-	public void afficherstatistiquesMapPerAnnee(HashMap<String, Integer> map) {
+	/*public void afficherstatistiquesMapPerAnnee(HashMap<String, Integer> map) {
 		for (Entry<String, Integer> m : map.entrySet()) {
 			System.out.println(m.getKey() + " " + m.getValue());
 		}
 
 	}
-
-	public static void main(String[] args) {
-		ConvertDate c = new ConvertDate();
-		System.out.println("date convertis " + c.cenvertirDate(new Date()));
-		c.retournerAnnee(new Date());
-		/*
-		 * System.out.println(c.extraireAnnee(c.cenvertirDate(new Date())));
-		 * System.out.println(c.extraireMois(c.cenvertirDate(new Date()))); c.gereMap();
-		 * c.remplirMapPerAnnee();
-		 */
-	}
+*/
+	
 
 }

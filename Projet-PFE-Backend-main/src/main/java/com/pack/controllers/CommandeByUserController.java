@@ -27,8 +27,7 @@ public class CommandeByUserController {
 	@Autowired
 	CommandeService commandeService;
 
-	// @RequestMapping("/commandes")
-	// @PreAuthorize("hasRole('ADMIN')")
+
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 
 	@RequestMapping(method = RequestMethod.POST, value = "/commandes")
@@ -37,20 +36,23 @@ public class CommandeByUserController {
 		commandeService.addCommande(commande);
 	}
 
+
+	// list commnade By User
+
 	@RequestMapping(method = RequestMethod.GET, value = "/commandes/{username}")
 	public List<Commande> getCommandeByUser(@PathVariable String username) {
-//	public int getCompteurByUser(@PathVariable Long iduser) {
 		ConvertDate con = new ConvertDate();
-
 		System.out.println("username:= " + username);
 		System.out.println("commande de l'utilisateur");
 		commandeService.getCommandesByUser(username).forEach(p->{
 			System.out.println(p.toString());
 		});
+            // Année du commande By user 
 		System.out.println("commande par Année");
 		commandeService.getCommandesByUser(username).forEach(c->{
 			System.out.println(con.extraireAnnee(c.getDate()));
 		});
+		//   Mois du commande
 		System.out.println("commande par Mois");
 		commandeService.getCommandesByUser(username).forEach(c->{
 			System.out.println(con.extraireMois(c.getDate()));

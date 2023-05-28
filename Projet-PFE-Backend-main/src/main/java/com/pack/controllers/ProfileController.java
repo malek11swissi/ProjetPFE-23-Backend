@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pack.ConvertDate;
 import com.pack.models.Commande;
 import com.pack.models.Compteur;
 import com.pack.models.ERole;
@@ -40,9 +39,7 @@ public class ProfileController {
 	CommandeService commandeService;
 	@Autowired
 	SoldeService soldeService;
-	@Autowired
-	ConvertDate convertDate;
-	@Autowired
+    @Autowired
 	private UserRepository userRepository;
 	@Autowired
 	PasswordEncoder encoder;
