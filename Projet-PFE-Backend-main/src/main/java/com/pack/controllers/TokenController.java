@@ -41,23 +41,13 @@ public class TokenController {
 		return tokenService.getSingleToken(id);
 	}
 
-	@PutMapping( value = "/updateToken")
-	public void updateToken(@RequestBody Token token) {
-		tokenService.updateToken( token);
-	}
 
 	@GetMapping( value = "/getUserTokens")
 	public List<Token> getTokenByUser(Authentication authentication ) {
 		return tokenService.getTokensByUser(authentication);
 	}
-	
-	@DeleteMapping( value = "/deleteToken/{id}")
-	public void deleteToken(@PathVariable Long id) {
-		//determiner l'id du panier a supprimer a partir de l'id du token
-		panierService.deletePanier(panierService.retournerIdPanier(id));
-		tokenService.deleteToken(id);
-		
-	}
+
+
 	
 	//ajouter token 
 	@PostMapping( value = "/createToken")
@@ -78,5 +68,21 @@ public class TokenController {
 		
 	
 	}
+	@PutMapping( value = "/updateToken")
+	public void updateToken(@RequestBody Token token) {
+		tokenService.updateToken( token);
+	}
+
+	
+	
+	@DeleteMapping( value = "/deleteToken/{id}")
+	public void deleteToken(@PathVariable Long id) {
+		//determiner l'id du panier a supprimer a partir de l'id du token
+		panierService.deletePanier(panierService.retournerIdPanier(id));
+		tokenService.deleteToken(id);
+		
+	}
+	
+	
 	
 }

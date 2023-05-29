@@ -37,6 +37,7 @@ public class UserDetailsImpl implements UserDetails {
 		this.telephone = telephone;
 		this.password = password;
 		this.active = active;
+		// Autorisation par son role 
 		this.authorities = authorities;
 	}
 

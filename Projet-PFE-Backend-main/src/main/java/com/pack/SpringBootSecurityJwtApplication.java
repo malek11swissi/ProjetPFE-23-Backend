@@ -99,14 +99,13 @@ public class SpringBootSecurityJwtApplication {
 		return (args) -> {
 
 /* 
-			
 			Typetoken typetoken5 = new Typetoken("5 dinars", 5.7);
 			typetokenrepository.save(typetoken5);
 			Typetoken typetoken10 = new Typetoken("10 dinars", 11.4);
 			typetokenrepository.save(typetoken10);
 			Typetoken typetoken20 = new Typetoken("20 dinars", 22.1);
 			typetokenrepository.save(typetoken20);
-*/
+
 			Gouvernorat tunis = new Gouvernorat("Tunis");
 			gouvernorats.add(tunis);
 			Gouvernorat mennouba = new Gouvernorat("Mennouba");
@@ -291,6 +290,8 @@ public class SpringBootSecurityJwtApplication {
 			packRepository.save(pack5cmetres);
 			packRepository.save(pack10cmetres);
 			packRepository.save(pack20cmetres);*/
+
+
 		}; 
 	} 
 

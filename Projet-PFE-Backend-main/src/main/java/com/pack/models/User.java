@@ -1,8 +1,6 @@
 package com.pack.models;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -33,14 +31,19 @@ public class User {
 	@Size(max = 120)
 	private String password;
 
+
 	private boolean active ;
 
 	@Enumerated(EnumType.STRING)
 	private ERole role;
+
 	private String libelle;
+	
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "id_gouvernorat")
 	private Gouvernorat gouvernorat;
+
+
 	public User() {
 	}
 
@@ -130,9 +133,12 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", telephone=" + telephone + ", password=" + password + "]";
+		return "User [id=" + id + ", username=" + username + ", telephone=" + telephone + ", password=" + password
+				+ ", active=" + active + ", role=" + role + ", libelle=" + libelle + ", gouvernorat=" + gouvernorat
+				+ "]";
 	}
 
+	
 	
 
 	

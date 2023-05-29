@@ -17,32 +17,10 @@ public class PanierService {
 	@Autowired
 	private PanierRepository panierRepo;
 
-	public List<Panier> getAllPanier() {
-		return panierRepo.findAll();
-	}
 
-	public void addPanier(Panier panier) {
-		panierRepo.save(panier);
-	}
+		//Liste Panier by username
 
-	public Optional<Panier> getSinglePanier(Long id) {
-		return panierRepo.findById(id);
-	}
-
-	public void updatePanier(Long id, Panier panier) {
-		panierRepo.save(panier);
-	}
-
-	public void deletePanier(Long id) {
-		panierRepo.deleteById(id);
-	}
-//list panier by user 
-	public Panier getPanierById(Long id) {
-	return panierRepo.findById(id).get();
-	}
-
-	
-	public List<Panier> getPaniersByUser(String username) {
+    public List<Panier> getPaniersByUser(String username) {
 		List<Panier> listePaniersActives = new ArrayList<Panier>();
 		panierRepo.getPaniersByUsername(username).forEach(p -> {
 			if (p.getActive()) {
@@ -56,6 +34,7 @@ public class PanierService {
 		return listePaniersActives;
 	}
 
+
 	//retour montant (prix token) dans un panier 
 	
 	public double retournermontantPanier(Panier panier) {
@@ -63,7 +42,9 @@ public class PanierService {
 		montant=panier.getToken().getTypetoken().getPrix();
 		return montant;
 	}
-	
+
+
+	//retour id Panier
 	public long retournerIdPanier(long idToken) {
 		long idPanier=0;
 		for(Panier panier:getAllPanier()) {
@@ -74,4 +55,38 @@ public class PanierService {
 		return idPanier;
 	}
 
+
+    // panier by user 
+      public Panier getPanierById(Long id) {
+	  return panierRepo.findById(id).get();
+	}  
+	public void addPanier(Panier panier) {
+		panierRepo.save(panier);
+	}
+    
+	public List<Panier> getAllPanier() {
+		return panierRepo.findAll();
+	}
+
+	
+
+	public Optional<Panier> getSinglePanier(Long id) {
+		return panierRepo.findById(id);
+	}
+
+	public void updatePanier(Long id, Panier panier) {
+		panierRepo.save(panier);
+	}
+
+	public void deletePanier(Long id) {
+		panierRepo.deleteById(id);
+	}
+    
+
+	
+	
+
+	
+	
+	
 }

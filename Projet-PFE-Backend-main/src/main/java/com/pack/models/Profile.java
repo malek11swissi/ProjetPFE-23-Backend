@@ -1,6 +1,7 @@
 package com.pack.models;
 
 public class Profile {
+    /*info marchand  */
     private Long id;
 
 	private String username;

@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 public class MarchandInformations {
+	/* request info marchand */
 	private long id;
 
 	private String login;

@@ -27,34 +27,36 @@ public class TokenService {
 	private UserService userService;
 	
 
-
-	public List<Token> getAllToken() {
-		return tokenRepo.findAll();
-	}
-	
-	
-	public Optional<Token> getSingleToken(Long id) {
-		return tokenRepo.findById(id);
-	}
-	
-	
-
-	
-  // Ajouter Token 
-  public ResponseEntity<Token> saveToken(Token token, Authentication authentication) {
-	String username = authentication.getName();
+	/*Consulter token par user dans liste   */
+	 public List<Token> getTokensByUser(Authentication authentication) {
+		String username = authentication.getName();
 		User client = userService.getUserByUsername(username);
-		token.setUser(client);
-//ajouter numero token génerer
-		token.setNumerotoken(this.genererNumeroToken(token.getTypetoken().getId(),token.getCompteur().getId(), client.getId()));
-		Token TokenSaved = tokenRepo.save(token);
-		return ResponseEntity.ok(TokenSaved);
+		List<Token> listtokens=new ArrayList();
+		tokenRepo.findAllByUserId(client.getId()).forEach(t->{
+			if(t.getActive())
+				listtokens.add(t);
+		});
+		return listtokens;
 	}
 
+		
+		// Ajouter Token 
+	    public ResponseEntity<Token> saveToken(Token token, Authentication authentication) {
+		String username = authentication.getName();
+			User client = userService.getUserByUsername(username);
+			token.setUser(client);
+	    //ajouter numero token génerer
+			token.setNumerotoken(this.genererNumeroToken(token.getTypetoken().getId(),token.getCompteur().getId(), client.getId()));
+			Token TokenSaved = tokenRepo.save(token);
+			return ResponseEntity.ok(TokenSaved);
+		}
+
 	
+
+		
    /* generate token user  */
 	public String genererNumeroToken( Long idTypeToken, Long idCompteur, Long idUser) {
-		// heure actuelle mili + idTypeToken + idCompteur + idUser 
+		// heure actuelle miliseconde + idTypeToken + idCompteur + idUser 
 		String numeroToken=""+System.currentTimeMillis()+idTypeToken+idCompteur + idUser;
 		return numeroToken;
 	}
@@ -69,11 +71,25 @@ public class TokenService {
 		tokenRepo.save(tokenBd);	
 			
 	}
+
+	// suuprimer token 
 	
-	public void deleteToken(Long id) {
-		tokenRepo.deleteById(id);
+		public void deleteToken(Long id) {
+			tokenRepo.deleteById(id);
+		}
+
+
+		
+	public List<Token> getAllToken() {
+		return tokenRepo.findAll();
 	}
-     
+	
+	
+	public Optional<Token> getSingleToken(Long id) {
+		return tokenRepo.findById(id);
+	}
+		 
+
 
 
 	/*public List<Token> getTokensByUser(Authentication authentication) {
@@ -86,19 +102,5 @@ public class TokenService {
 		});
 		return listtokens;
 	}*/
-
-
-		/*add token by user dans liste token  */
-		public List<Token> getTokensByUser(Authentication authentication) {
-			String username = authentication.getName();
-			User client = userService.getUserByUsername(username);
-			List<Token> listtokens=new ArrayList();
-			tokenRepo.findAllByUserId(client.getId()).forEach(t->{
-				if(t.getActive())
-					listtokens.add(t);
-			});
-			return listtokens;
-		}
-	
 	
 }

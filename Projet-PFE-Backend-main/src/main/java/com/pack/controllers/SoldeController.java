@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.pack.models.Solde;
 import com.pack.models.SoldeTransfertRequest;
-
 import com.pack.models.User;
 import com.pack.payload.response.PaiementRetour;
 import com.pack.repository.SoldeRepository;

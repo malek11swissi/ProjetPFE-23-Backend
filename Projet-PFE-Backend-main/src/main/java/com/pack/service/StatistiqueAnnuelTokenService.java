@@ -5,10 +5,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.pack.ConvertDate;
 import com.pack.models.BarChart;
 import com.pack.models.Chart;
@@ -31,7 +29,50 @@ public class StatistiqueAnnuelTokenService {
 		return (ArrayList<StatAnnulleToken>) StatAnnulleTokenRepo.findAllTrie();
 	}
 	
-	
+	public Chart getStatsChart()
+		{
+			Chart chart = new Chart();
+			List<StatAnnulleToken> stats = StatAnnulleTokenRepo.findAll();
+			List<String> annee = new ArrayList<String>();
+			List<String> typeTokens = new ArrayList<String>();
+			for(StatAnnulleToken s : stats)
+			{
+				annee.add(""+s.getAnnee());
+				
+				typeTokens.add(s.getTypeToken());
+			}		
+			// remove duplications
+			HashSet<String> set = new HashSet<>(annee);
+			List<String> anneeList = new ArrayList<>(set);
+			chart.setAxisXData(anneeList);
+			List<BarChart> series = new ArrayList<>()	;
+			for(String item:typeTokens)
+			{
+				BarChart barChart = new BarChart();
+				barChart.setName(item);
+				barChart.setType("bar");
+				List<Integer> values = new ArrayList<>();
+				// count 
+				for(String year:anneeList)
+				{
+				
+					if(StatAnnulleTokenRepo.existsByTypeTokenAndAnnee(item, Integer.parseInt(year)))
+					{
+						StatAnnulleToken statAnnulleToken =  StatAnnulleTokenRepo.findByTypeTokenAnnee(item, Integer.parseInt(year));
+					
+						values.add(statAnnulleToken.getNb());
+					} else {
+						values.add(0);
+					}
+
+				
+				}
+				barChart.setData(values);
+				series.add(barChart);
+			}
+			chart.setSeries(series);
+			return chart ;
+		}
 
 	public void addStatistiqueAnnuelToken(StatAnnulleToken statistiqueAnnuel) {
 		StatAnnulleTokenRepo.save(statistiqueAnnuel);
@@ -76,50 +117,7 @@ public class StatistiqueAnnuelTokenService {
 			
 		}
 
-		public Chart getStatsChart()
-		{
-			Chart chart = new Chart();
-			List<StatAnnulleToken> stats = StatAnnulleTokenRepo.findAll();
-			List<String> annee = new ArrayList<String>();
-			List<String> typeTokens = new ArrayList<String>();
-			for(StatAnnulleToken s : stats)
-			{
-				annee.add(""+s.getAnnee());
-				
-				typeTokens.add(s.getTypeToken());
-			}		
-			// remove duplications
-			HashSet<String> set = new HashSet<>(annee);
-			List<String> anneeList = new ArrayList<>(set);
-			chart.setAxisXData(anneeList);
-			List<BarChart> series = new ArrayList<>()	;
-			for(String item:typeTokens)
-			{
-				BarChart barChart = new BarChart();
-				barChart.setName(item);
-				barChart.setType("bar");
-				List<Integer> values = new ArrayList<>();
-				// count 
-				for(String year:anneeList)
-				{
-				
-					if(StatAnnulleTokenRepo.existsByTypeTokenAndAnnee(item, Integer.parseInt(year)))
-					{
-						StatAnnulleToken statAnnulleToken =  StatAnnulleTokenRepo.findByTypeTokenAnnee(item, Integer.parseInt(year));
-					
-						values.add(statAnnulleToken.getNb());
-					} else {
-						values.add(0);
-					}
-
-				
-				}
-				barChart.setData(values);
-				series.add(barChart);
-			}
-			chart.setSeries(series);
-			return chart ;
-		}
+		
 	}
 
 	

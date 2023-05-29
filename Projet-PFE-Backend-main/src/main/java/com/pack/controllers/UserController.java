@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
 import com.pack.service.UserService;
 
 @CrossOrigin(origins = "*")
@@ -63,12 +62,12 @@ public class UserController {
             String errorMessage = "marchand existe!";
             response = new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-		
 
         
         return response;
 		 
 	}
+
 
 	@GetMapping(value="/users/getAllMarchands")
 	public List<Marchand> getAllMarchands() {

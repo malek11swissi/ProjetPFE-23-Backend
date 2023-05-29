@@ -17,7 +17,7 @@ public class TypetokenService {
 	private TypetokenRepository typetokenRepo;
 	
 
-	
+	/*Gérer TypeToken*/
 	
 	public List<Typetoken> getAllTypetoken() {
 		return typetokenRepo.findAll();
