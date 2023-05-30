@@ -102,7 +102,7 @@ public class AuthController {
 							 signUpRequest.getTelephone(),
 							 encoder.encode(signUpRequest.getPassword()));
 
-		user.setActive(false);
+		user.setActive(true);
 
 		user.setRole(ERole.ROLE_CLIENT);
 		userRepository.save(user);

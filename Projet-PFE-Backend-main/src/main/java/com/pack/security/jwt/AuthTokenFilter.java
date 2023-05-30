@@ -20,6 +20,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.pack.security.services.UserDetailsServiceImpl;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
+
+	//its to manipulate the token that we will extract from the request
 	@Autowired
 	private JwtUtils jwtUtils;
 
@@ -47,16 +49,19 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 			logger.error("Cannot set user authentication: {}", e);
 		}
 
+		//pass the request and the response to the next filter
 		filterChain.doFilter(request, response);
 	}
 
 	private String parseJwt(HttpServletRequest request) {
+		// to pass any request, you need auth to be in the header
 		String headerAuth = request.getHeader("Authorization");
 
 		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+			//if there is the auth we're looking for in the header, we"ll substract the token from this authentication header
 			return headerAuth.substring(7, headerAuth.length());
 		}
-
+//if there isnt anything, it will return null. nothing.
 		return null;
 	}
 }
