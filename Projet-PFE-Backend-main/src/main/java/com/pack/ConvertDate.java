@@ -83,11 +83,6 @@ public class ConvertDate {
 	}
 
 
-
-
-
-
-
      /* Affiche tous les commandes par chaine 
 	public void retournerListeCommande() {
 		commandeRepo.findAll().forEach(c -> {

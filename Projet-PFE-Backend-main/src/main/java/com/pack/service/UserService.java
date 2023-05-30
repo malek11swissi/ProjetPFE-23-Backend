@@ -91,6 +91,7 @@ public class UserService {
 		cryptedPassword = encoder.encode(marchandInformations.getPassword());
 		User user = new User();
 		user.setUsername(marchandInformations.getLogin());
+		// Prend Role Marchand 
 		user.setPassword(cryptedPassword);
 		user.setTelephone(marchandInformations.getTelephone());
 		user.setRole(ERole.ROLE_MARCHAND);
@@ -150,7 +151,35 @@ public class UserService {
 	}
 
 
+	public void addUser(User user) {
+		userRepo.save(user);
+	}
 
+
+	public void updateUser(Long id, User user) {
+		userRepo.save(user);
+	}
+	
+	public void deleteUser(Long id) {
+		userRepo.deleteById(id);
+	}
+	
+	public User getUser(String username) {
+		userRepo.findAll().forEach(u->{
+			if(u.getUsername().equals(username))
+				user=u;
+		});
+		return user;
+	}
+    
+	public Optional<User> getSingleUser(Long id) {
+		return userRepo.findById(id);
+	}
+
+
+
+
+	
 
 	/*
 	 * public User findUserbyUsername(String username) { User user= new User();
@@ -187,31 +216,7 @@ public class UserService {
 
 
 
-	public void addUser(User user) {
-		userRepo.save(user);
-	}
-
-
-	public void updateUser(Long id, User user) {
-		userRepo.save(user);
-	}
 	
-	public void deleteUser(Long id) {
-		userRepo.deleteById(id);
-	}
-	
-	public User getUser(String username) {
-		userRepo.findAll().forEach(u->{
-			if(u.getUsername().equals(username))
-				user=u;
-		});
-		return user;
-	}
-    
-	public Optional<User> getSingleUser(Long id) {
-		return userRepo.findById(id);
-	}
-
 	
 
 	

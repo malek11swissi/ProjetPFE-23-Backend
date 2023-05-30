@@ -18,7 +18,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
 
 	@Override
-	/* Methode gere methodes de spring   */
+	/* Methode gére methodes de spring   */
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		logger.error("Unauthorized error: {}", authException.getMessage());
