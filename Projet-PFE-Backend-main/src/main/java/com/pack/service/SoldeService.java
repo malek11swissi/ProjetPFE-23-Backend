@@ -61,6 +61,7 @@ public class SoldeService {
 			}
 		}
 		System.out.println("solde client "+soldeUser);
+		// transaction true 
 		if(soldeUser>=montantPanier) {
 			transaction=true;
 		}

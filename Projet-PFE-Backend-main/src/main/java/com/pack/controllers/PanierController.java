@@ -82,6 +82,7 @@ public class PanierController {
 		panierService.updatePanier(id, panier);
 	}
 	
+	// Payer Panier
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/paniers/{id}")
 	public PaiementRetour payerPanier(@PathVariable Long id , Authentication authentication) {
@@ -89,11 +90,11 @@ public class PanierController {
 	
 	
 		User user =userService.getUserByUsername(username);
-
+ // meesage de transaction 
 		PaiementRetour retour = new PaiementRetour();
 		Commande commande = new Commande();
 		
-	
+// new stat 
 		StatAnnulleToken statistiquetoken=new StatAnnulleToken();
 		double montantPanier = 0;
 		long id_token;
@@ -104,36 +105,34 @@ public class PanierController {
 		Panier panier = new Panier();
 		Token token=new Token();
 
-		// Création commande
+		
 		panier = panierService.getPanierById(id);
 		System.out.println("panier " + panier.getId());
 		token=panier.getToken();
 		System.out.println("token " + token.getId());
 		String type_token= panier.getToken().getTypetoken().getNom();
-		//extraction annee et mois
+	//extraction annee et mois
 		ConvertDate c = new ConvertDate();
 		annee=c.retournerAnnee(date);
 		mois=c.retournerMois(date);
 		
-			
-			// verifier solde
+	// verifier solde a pour ce panier 
 		if (soldeService.verifierSolde(panier)) {
-			//insertion statistiques
-		
 	
-			
-			
-	
+	// Création commande
 			commande.setDate(convertDate.cenvertirDate(date));
 			commande.setPanier(panier);
 			commande.setUser(user);
 			commandeService.addCommande(commande);
+			// changer etat de panier 
 			panier.setActive(false);
+			// changer etat de token 
 			token.setActive(false);
 			panierService.addPanier(panier);
+	// Debiter solde 
 			soldeService.soustraire(panier);
 			
-			//suppression du token 
+	//suppression du token 
 			tokenService.updateToken( token);
 			statistiqueAnnuelServiceToken.ajouterStatAnnuel(date, type_token);
 			retour.setSuccess(true);

@@ -1,6 +1,7 @@
 package com.pack.models;
 
 public class MarchandInfo {
+    // return info marchand et request update
     private long id;
 
     private String username;

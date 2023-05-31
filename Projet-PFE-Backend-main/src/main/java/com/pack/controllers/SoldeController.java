@@ -43,11 +43,7 @@ public class SoldeController {
 	SoldeRepository solderepo ; 
 
 
-	
 
-
-	// @RequestMapping("/soldes")
-	// @PreAuthorize("hasRole('ADMIN')")
 	@PreAuthorize("hasRole('ROLE_CLIENT' || 'ROLE_MARCHAND')")
 	
 //liste soldes 

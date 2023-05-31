@@ -106,7 +106,7 @@ public class SpringBootSecurityJwtApplication {
 			Typetoken typetoken20 = new Typetoken("20 dinars", 22.1);
 			typetokenrepository.save(typetoken20);
 
-			Gouvernorat tunis = new Gouvernorat("Tunis");
+		*/	Gouvernorat tunis = new Gouvernorat("Tunis");
 			gouvernorats.add(tunis);
 			Gouvernorat mennouba = new Gouvernorat("Mennouba");
 			gouvernorats.add(mennouba);
@@ -168,17 +168,23 @@ public class SpringBootSecurityJwtApplication {
 			cryptedPasswordlafayette = encoder.encode(passwordlafayette);
 			// setting user role
 			User admin = new User("admin", "55123456", cryptedPasswordadmin);
+
+			admin.setRole(ERole.ROLE_ADMIN);
+			admin.setActive(true);
+				userrepository.save(admin);
+
+
+			
+/* 
 			User mohamed = new User("mohamed", "22123456", cryptedPassword2);
-			User malek = new User("malek", "98123456", cryptedPassword1);
+			User malek = new User("amani", "98123456", cryptedPassword1);
 			User lafayette = new User("lafayette", "71123456", cryptedPasswordlafayette,"centre LaFayette", tunis);
 			User boujaafar = new User("boujaafar", "73123456", cryptedPasswordlafayette,"centre Boujaafar", sousse);
 			User cmetres = new User("cmetres", "74123456", cryptedPasswordlafayette, "centre centmetres", sfax);
 			User lamedina = new User("lamedina", "78123456", cryptedPasswordlafayette,"centre Elmedina", siliana);
-            	admin.setActive(true);
-				userrepository.save(admin);
-
+            	
 				
-			admin.setRole(ERole.ROLE_ADMIN);
+		
 			lafayette.setRole(ERole.ROLE_MARCHAND);
 			boujaafar.setRole(ERole.ROLE_MARCHAND);
 			cmetres.setRole(ERole.ROLE_MARCHAND);
@@ -199,7 +205,7 @@ public class SpringBootSecurityJwtApplication {
 			userrepository.save(lafayette);
 			userrepository.save(boujaafar);
 			userrepository.save(cmetres);
-			userrepository.save(lamedina);
+			userrepository.save(lamedina);/* 
 
 			// Ajout compteur
 			Compteur compteur1 = new Compteur();

@@ -60,7 +60,7 @@ public class TokenController {
 		
 		tokenService.saveToken(token ,authentication);
 
-		//vreation du panier
+		//creation du panier
 		panier.setToken(token);
 		panier.setUser(token.getUser());
 		panier.setActive(true);
