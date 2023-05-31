@@ -42,7 +42,7 @@ public class CompteurService {
 	
 
 
-/* ajouter copteur dans la liste du client  */
+/* ajouter compteur dans la liste du client  */
 	public ResponseEntity<Compteur> saveCompteur(Compteur compteur, Authentication authentication) {
 		String username = authentication.getName();
 		System.out.println("username" + username);
@@ -55,11 +55,12 @@ public class CompteurService {
 	}
 	
 	
-	
+	//modifier compteur
 	public void updateCompteur(Long id, Compteur compteur) {
 		compteurRepo.save(compteur);
 	}
 	
+	//supprimer compteur
 	public void deleteCompteur(Long id) {
 		compteurRepo.deleteById(id);
 	}

@@ -54,9 +54,11 @@ public class AuthController {
 	public ResponseEntity<?> authenticateUser(@Valid   @RequestBody LoginRequest loginRequest) throws Exception {
 
 		try {
+			// Verifier si authentifier 
 			Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
+				//Generé token user 
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
@@ -103,7 +105,6 @@ public class AuthController {
 							 encoder.encode(signUpRequest.getPassword()));
 
 		user.setActive(true);
-
 		user.setRole(ERole.ROLE_CLIENT);
 		userRepository.save(user);
 		//initiation du solde null

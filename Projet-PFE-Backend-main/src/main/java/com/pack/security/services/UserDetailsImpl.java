@@ -27,6 +27,9 @@ public class UserDetailsImpl implements UserDetails {
 	private String password;
 
 	private boolean active ;
+
+
+	
       /*Collection autorisé role de user */
 	private Collection<? extends GrantedAuthority> authorities;
 
@@ -37,16 +40,17 @@ public class UserDetailsImpl implements UserDetails {
 		this.telephone = telephone;
 		this.password = password;
 		this.active = active;
-		// Autorisation par son role 
+	// Autorisation par son role 
 		this.authorities = authorities;
 	}
 
+
+
 	public static UserDetailsImpl build(User user) {
-
+         /* Ajouter role pour user  */
 		List<GrantedAuthority> authorities = new ArrayList<>();
+		// crée objet User par ces données 
 		authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
-		
-
 		return new UserDetailsImpl(
 				user.getId(), 
 				user.getUsername(), 
@@ -56,10 +60,6 @@ public class UserDetailsImpl implements UserDetails {
 				authorities);
 	}
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
-	}
 
 	public Long getId() {
 		return id;
@@ -67,6 +67,12 @@ public class UserDetailsImpl implements UserDetails {
 
 	public String getTelephone() {
 		return telephone;
+	}
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
 	}
 
 	@Override
