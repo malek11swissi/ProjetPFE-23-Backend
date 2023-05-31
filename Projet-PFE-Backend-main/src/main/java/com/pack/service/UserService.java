@@ -61,14 +61,7 @@ public class UserService {
 		
 	}
 
-    
-
-
-
-
-
 /* Gérer Marchand   */
-
 	public List<Marchand> getAllMarchands()
 	{
 			List<User> marchands = userRepo.findAllByRole(ERole.ROLE_MARCHAND);

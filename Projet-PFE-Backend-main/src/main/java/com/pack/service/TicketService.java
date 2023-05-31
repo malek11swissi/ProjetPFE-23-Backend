@@ -30,11 +30,11 @@ public class TicketService {
 		User marchand =userService.getUserByUsername(username);
 		return ticketRepo.findAllByUserId(marchand.getId());
 	}
+
 // Ajouter Ticket
 	public Ticket addTicket(Ticket ticket) {
 		return ticketRepo.save(ticket);
 	}
-
 
 // Generate ticket 
 	public String genererNumeroTicket(Long idTicket, Long idTypeTicket, String telephone, Long idCompteur) {
@@ -44,10 +44,7 @@ public class TicketService {
 		System.out.println("numeroticket:= "+numeroTicket);
 		return numeroTicket;
 	}
-
-
-
-
+	
 	public List<Ticket> getAllTicket() {
 		return ticketRepo.findAll();
 	}

@@ -45,7 +45,8 @@ public class ProfileController {
 	@Autowired
 	UserRepository userRepo;
  
-	
+	//gérer profile
+	//consulter profile
 	@GetMapping(value = "/profiles/getProfile")
 	public Profileform getProfile(Authentication authentication)
 	{
@@ -58,6 +59,8 @@ public class ProfileController {
 		return profile ;
 	}
 
+
+	//modifier profile
 	@PutMapping( value = "/profiles/updateProfile")
 	public void updateLoggedProfile(@RequestBody Profileform profileform , Authentication authentication) {
 		String username = authentication.getName();

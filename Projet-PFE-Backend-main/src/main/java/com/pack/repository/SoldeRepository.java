@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pack.models.Solde;
 
+//rest controller ghalet. mahouch controller
 @RestController
 public interface SoldeRepository extends JpaRepository<Solde, Long> {
 	@Query("FROM Solde where user.username = ?1")

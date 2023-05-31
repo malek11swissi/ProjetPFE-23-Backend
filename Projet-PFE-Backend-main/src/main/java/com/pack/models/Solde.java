@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Solde {
 	long id;
+	// relation
 	private User user;
 	private double valeur;
 
@@ -44,11 +45,7 @@ public class Solde {
 		this.user = user;
 	}
 
-	/*
-	 * public Boolean getActive() { return active; }
-	 * 
-	 * public void setActive(Boolean active) { this.active = active; }
-	 */
+	
 
 	public double getValeur() {
 		return valeur;

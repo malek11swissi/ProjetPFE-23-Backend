@@ -8,6 +8,13 @@
             "type": "java",
             "name": "SpringBootSecurityJwtApplication",
             "request": "launch",
+            "mainClass": "com.pack.SpringBootSecurityJwtApplication",
+            "projectName": "spring-boot-security-MalekNadine"
+        },
+        {
+            "type": "java",
+            "name": "SpringBootSecurityJwtApplication",
+            "request": "launch",
             "mainClass": "SpringBootSecurityJwtApplication",
             "projectName": "spring-boot-security-siwar"
         },

@@ -20,6 +20,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.pack.security.services.UserDetailsServiceImpl;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
+
+	//its to manipulate the token that we will extract from the request
 	@Autowired
 	private JwtUtils jwtUtils;
 
@@ -60,7 +62,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 			// exlus 7 caractères Bearer
 			return headerAuth.substring(7, headerAuth.length());
 		}
-
 		return null;
 	}
 }
