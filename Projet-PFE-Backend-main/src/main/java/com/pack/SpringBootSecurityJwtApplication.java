@@ -106,7 +106,7 @@ public class SpringBootSecurityJwtApplication {
 			Typetoken typetoken20 = new Typetoken("20 dinars", 22.1);
 			typetokenrepository.save(typetoken20);
 
-		*/	Gouvernorat tunis = new Gouvernorat("Tunis");
+		Gouvernorat tunis = new Gouvernorat("Tunis");
 			gouvernorats.add(tunis);
 			Gouvernorat mennouba = new Gouvernorat("Mennouba");
 			gouvernorats.add(mennouba);

@@ -3,8 +3,8 @@ package com.pack.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -49,17 +49,17 @@ public class SoldeService {
 
     //Verfication solde existe  pour un panier
 	public Boolean verifierSolde(Panier panier) {
+
+
+	
 		double soldeUser=0,montantPanier=0;
 		Boolean transaction=false;
 		long idUser;
-		List<Solde> listeSoldes=soldeRepo.findAll();
+	
 		idUser=panier.getUser().getId();
+		Solde solde = soldeRepo.findByUserId(idUser).get();
 		montantPanier=panier.getToken().getTypetoken().getPrix();
-		for(Solde s:listeSoldes) {
-			if(s.getUser().getId()==idUser) {
-				soldeUser=s.getValeur();
-			}
-		}
+		soldeUser = solde.getValeur();
 		System.out.println("solde client "+soldeUser);
 		// transaction true 
 		if(soldeUser>=montantPanier) {

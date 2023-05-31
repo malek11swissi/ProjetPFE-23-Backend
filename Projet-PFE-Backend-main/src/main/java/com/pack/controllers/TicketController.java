@@ -54,14 +54,12 @@ public class TicketController {
 
 
 
-	@RequestMapping(method = RequestMethod.GET, value = "/tickets")
-	public List<Ticket> getTicket() {
-		ticketService.getAllTicket().forEach(t -> {
-			System.out.println(t.toString());
-		});
-		return (List<Ticket>) ticketService.getAllTicket();
+// Cpnsulter historique de ventes
+	@GetMapping( value = "/tickets/getTicketsMarchand")
+	public List<Ticket> getTicketByUsername(Authentication authentication) {
+	return ticketService.getTicketsMarchand(authentication);
+	
 	}
-
 
 
 // Crée Ticket  et Modifier Pack 
@@ -73,11 +71,13 @@ public class TicketController {
 		List<Pack> packs = packService.getPacksByMarchand(authentication);
 		// trouver le pack coresspondant au ticket et diminuer le nombre 
 		Pack packTicketSelled = packs.stream().filter(elem -> elem.getTypetoken().getId() == ticket.getTypetoken().getId()).findFirst().get();
+		
 		if(packTicketSelled.getNombre() == 0)
 		{
 			paiementRetour.setSuccess(false);
 			paiementRetour.setMessage("Vente ticket a échoué , Nombre typetoken issufisant");
 			return paiementRetour;
+
 		} else {
 			String username = authentication.getName();
 			System.out.println("username:= " + username);
@@ -96,11 +96,20 @@ public class TicketController {
 			return paiementRetour;
 		}
 
+	
 		
-		
-
-		// 
 	}
+
+
+	@RequestMapping(method = RequestMethod.GET, value = "/tickets")
+	public List<Ticket> getTicket() {
+		ticketService.getAllTicket().forEach(t -> {
+			System.out.println(t.toString());
+		});
+		return (List<Ticket>) ticketService.getAllTicket();
+	}
+
+
 
 	@RequestMapping(method = RequestMethod.GET, value = "/tickets/{serial}")
 	public Typetoken getTypetokenfromSerial(@PathVariable long serial) {
@@ -116,7 +125,7 @@ public class TicketController {
 	}
 
 
-
+// add ticket randome
 
 	@RequestMapping(method = RequestMethod.POST, value = "/tickets")
 	public void addTicket(@RequestBody Ticket ticket) {
@@ -131,9 +140,5 @@ public class TicketController {
 
 
 
-	@GetMapping( value = "/tickets/getTicketsMarchand")
-	public List<Ticket> getTicketByUsername(Authentication authentication) {
-	return ticketService.getTicketsMarchand(authentication);
 	
-	}
 }

@@ -46,12 +46,13 @@ public class CompteurController {
 	public ResponseEntity<Compteur> saveCompteur(@RequestBody Compteur compteur, Authentication authentication) {
 		return compteurService.saveCompteur(compteur,authentication);
 	}
-      
+    // delete compteur
 	@RequestMapping(method = RequestMethod.DELETE, value = "/compteurs/deleteCompteur/{id}")
 	public void deleteCompteur(@PathVariable Long id) {
 		compteurService.deleteCompteur(id);
 	}
 
+	// get compteur by id 
 	@GetMapping( value="/compteurs/getCompteur/{id}")
 	public Optional<Compteur> getCompteurById(@PathVariable Long id) {
 		return compteurService.getSingleCompteur(id);

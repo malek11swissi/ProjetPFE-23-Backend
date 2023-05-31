@@ -36,7 +36,7 @@ public class TicketService {
 		return ticketRepo.save(ticket);
 	}
 
-// Generate ticket 
+// Generate numero ticket 
 	public String genererNumeroTicket(Long idTicket, Long idTypeTicket, String telephone, Long idCompteur) {
 		String numeroTicket;
 		System.out.println("je suis dans generation num ticket");
@@ -44,6 +44,11 @@ public class TicketService {
 		System.out.println("numeroticket:= "+numeroTicket);
 		return numeroTicket;
 	}
+
+
+
+
+	
 	
 	public List<Ticket> getAllTicket() {
 		return ticketRepo.findAll();

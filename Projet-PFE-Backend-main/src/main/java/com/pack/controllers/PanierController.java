@@ -54,55 +54,38 @@ public class PanierController {
 	UserService userService;
 	@PreAuthorize("hasRole('ROLE_USER')")
 
-	@RequestMapping(method = RequestMethod.GET, value = "/paniers")
-	public List<Panier> getPanier()
+/*Gérer panier  */
+// consulter panier by user 
+@RequestMapping(method = RequestMethod.GET, value = "/paniers/{username}")
+public List<Panier> getPanierByUser(@PathVariable String username) {
+	  return panierService.getPaniersByUser(username);
 
-	{
-		panierService.getAllPanier().forEach(t -> {
-			System.out.println(t.toString());
-		});
-		return (List<Panier>) panierService.getAllPanier();
+}
 
-	}
-
-	@RequestMapping(method = RequestMethod.POST, value = "/paniers")
-	public void addPanier(@RequestBody Panier panier) {
-		System.out.println(panier.toString());
-		panierService.addPanier(panier);
-	}
-
-	@RequestMapping("/paniers/{id}")
-	public Optional<Panier> getSinglePanier(@PathVariable Long id) {
-		return panierService.getSinglePanier(id);
-	}
-
-	@RequestMapping(method = RequestMethod.PUT, value = "/paniers/{id}")
-	public void updatePanier(@RequestBody Panier panier, @PathVariable Long id) {
-		System.out.println(panier.toString());
-		panierService.updatePanier(id, panier);
-	}
-	
-	// Payer Panier
+// Payer Panier
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/paniers/{id}")
 	public PaiementRetour payerPanier(@PathVariable Long id , Authentication authentication) {
 		String username = authentication.getName();
-	
-	
 		User user =userService.getUserByUsername(username);
- // meesage de transaction 
+       // meesage de transaction 
 		PaiementRetour retour = new PaiementRetour();
+        // new commande 
 		Commande commande = new Commande();
 		
-// new stat 
 		StatAnnulleToken statistiquetoken=new StatAnnulleToken();
+
 		double montantPanier = 0;
 		long id_token;
 		Date date = new Date();
 		int annee,mois,nb_mois,nb_annee;
 		long idstatAnne;
 		Boolean anneeExist=false,moisExist=false;
+
+
+		// new panier 
 		Panier panier = new Panier();
+		// new token 
 		Token token=new Token();
 
 		
@@ -111,29 +94,35 @@ public class PanierController {
 		token=panier.getToken();
 		System.out.println("token " + token.getId());
 		String type_token= panier.getToken().getTypetoken().getNom();
-	//extraction annee et mois
+	     //extraction annee et mois
 		ConvertDate c = new ConvertDate();
 		annee=c.retournerAnnee(date);
 		mois=c.retournerMois(date);
-		
-	// verifier solde a pour ce panier 
+
+// verifier solde a pour ce panier 
 		if (soldeService.verifierSolde(panier)) {
 	
-	// Création commande
+            // ajout date au  commande
 			commande.setDate(convertDate.cenvertirDate(date));
+			//commande prendre panier 
 			commande.setPanier(panier);
+			// commande de user 
 			commande.setUser(user);
+			// ajouter commande 
 			commandeService.addCommande(commande);
 			// changer etat de panier 
 			panier.setActive(false);
 			// changer etat de token 
 			token.setActive(false);
 			panierService.addPanier(panier);
-	// Debiter solde 
+
+
+	       // Debiter solde 
 			soldeService.soustraire(panier);
 			
-	//suppression du token 
+	       //suppression du token 
 			tokenService.updateToken( token);
+			// ajouter stat 
 			statistiqueAnnuelServiceToken.ajouterStatAnnuel(date, type_token);
 			retour.setSuccess(true);
 			retour.setMessage("Paiement effectué avec succès");
@@ -147,10 +136,36 @@ public class PanierController {
 		return retour ; 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/paniers/{username}")
-	public List<Panier> getPanierByUser(@PathVariable String username) {
-	      return panierService.getPaniersByUser(username);
 
+
+	@RequestMapping(method = RequestMethod.GET, value = "/paniers")
+	public List<Panier> getPanier()
+
+	{
+		panierService.getAllPanier().forEach(t -> {
+			System.out.println(t.toString());
+		});
+		return (List<Panier>) panierService.getAllPanier();
+
+	}
+
+
+	@RequestMapping(method = RequestMethod.POST, value = "/paniers")
+	public void addPanier(@RequestBody Panier panier) {
+		System.out.println(panier.toString());
+		panierService.addPanier(panier);
+	}
+
+	@RequestMapping("/paniers/{id}")
+	public Optional<Panier> getSinglePanier(@PathVariable Long id) {
+		return panierService.getSinglePanier(id);
+	}
+
+
+	@RequestMapping(method = RequestMethod.PUT, value = "/paniers/{id}")
+	public void updatePanier(@RequestBody Panier panier, @PathVariable Long id) {
+		System.out.println(panier.toString());
+		panierService.updatePanier(id, panier);
 	}
 
 	

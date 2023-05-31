@@ -60,6 +60,8 @@ public class CompteurService {
 		compteurRepo.save(compteur);
 	}
 	
+
+	
 	//supprimer compteur
 	public void deleteCompteur(Long id) {
 		compteurRepo.deleteById(id);

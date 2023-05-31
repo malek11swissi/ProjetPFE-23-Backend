@@ -35,21 +35,15 @@ public class TokenController {
 
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 
+/*Gérer token */
 
-	@RequestMapping("/getToken/{id}")
-	public Optional<Token> getSingleToken(@PathVariable Long id) {
-		return tokenService.getSingleToken(id);
-	}
-
-
+// Consulter liste token
 	@GetMapping( value = "/getUserTokens")
 	public List<Token> getTokenByUser(Authentication authentication ) {
 		return tokenService.getTokensByUser(authentication);
 	}
-
-
 	
-	//ajouter token 
+//ajouter token 
 	@PostMapping( value = "/createToken")
 	public void createToken(@RequestBody Token token, Authentication authentication) {
 		
@@ -66,14 +60,16 @@ public class TokenController {
 		panier.setActive(true);
 		panierService.addPanier(panier);
 		
-	
 	}
+
+
+// Modifier token
 	@PutMapping( value = "/updateToken")
 	public void updateToken(@RequestBody Token token) {
 		tokenService.updateToken( token);
 	}
 
-	
+// delete token
 	
 	@DeleteMapping( value = "/deleteToken/{id}")
 	public void deleteToken(@PathVariable Long id) {
@@ -82,6 +78,16 @@ public class TokenController {
 		tokenService.deleteToken(id);
 		
 	}
+
+
+	@RequestMapping("/getToken/{id}")
+	public Optional<Token> getSingleToken(@PathVariable Long id) {
+		return tokenService.getSingleToken(id);
+	}
+
+
+	
+
 	
 	
 	

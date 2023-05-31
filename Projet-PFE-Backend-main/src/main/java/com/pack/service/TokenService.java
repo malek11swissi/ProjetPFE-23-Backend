@@ -26,8 +26,9 @@ public class TokenService {
 	@Autowired
 	private UserService userService;
 	
+/*Gérer token */
 
-	/*Consulter token par user dans liste   */
+//Consulter token par user dans liste   
 	 public List<Token> getTokensByUser(Authentication authentication) {
 		String username = authentication.getName();
 		User client = userService.getUserByUsername(username);
@@ -40,12 +41,12 @@ public class TokenService {
 	}
 
 		
-		// Ajouter Token 
+// Ajouter Token 
 	    public ResponseEntity<Token> saveToken(Token token, Authentication authentication) {
 		String username = authentication.getName();
 			User client = userService.getUserByUsername(username);
 			token.setUser(client);
-	    //ajouter numero token génerer
+	    //modifier numero token génerer
 			token.setNumerotoken(this.genererNumeroToken(token.getTypetoken().getId(),token.getCompteur().getId(), client.getId()));
 			Token TokenSaved = tokenRepo.save(token);
 			return ResponseEntity.ok(TokenSaved);
@@ -62,7 +63,7 @@ public class TokenService {
 	}
 	
 
-	// Modifier Token 
+// Modifier Token 
 	public void updateToken(Token token) {
 		Token tokenBd = tokenRepo.findById(token.getId()).get();
 		tokenBd.setNumerotoken(token.getNumerotoken());

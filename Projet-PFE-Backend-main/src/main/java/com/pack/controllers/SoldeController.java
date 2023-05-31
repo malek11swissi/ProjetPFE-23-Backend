@@ -42,8 +42,7 @@ public class SoldeController {
 	@Autowired
 	SoldeRepository solderepo ; 
 	
-	@PreAuthorize("hasRole('ROLE_CLIENT' || 'ROLE_MARCHAND')")
-	
+	@PreAuthorize("hasRole('ROLE_CLIENT') or hasRole('ROLE_MARCHAND')")
 
 
 
